@@ -1,0 +1,71 @@
+---
+const focusAreas = [
+  {
+    label: 'Low-Level Systems',
+    tags: ['C', 'C++', 'Java', 'Linux'],
+  },
+  {
+    label: 'Parallel / HPC',
+    tags: ['CUDA', 'OpenMP', 'MPI'],
+  },
+  {
+    label: 'Web Development',
+    tags: ['HTML', 'CSS', 'JavaScript', 'Bootstrap', 'PHP'],
+  },
+  {
+    label: 'Mobile Development',
+    tags: ['Kotlin', 'Jetpack Compose', 'Android'],
+  },
+];
+---
+
+<section id="about">
+  <!-- Section heading -->
+  <div class="mb-10" data-reveal>
+    <p class="text-subtext text-sm mb-1">
+      <span class="text-blue">$</span> cat about.md
+    </p>
+    <h2 class="text-text text-2xl font-bold">about</h2>
+    <div class="mt-2 h-px w-16 bg-blue opacity-50"></div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16">
+    <!-- Bio -->
+    <div data-reveal data-reveal-delay="1">
+      <p class="text-subtext leading-relaxed text-sm md:text-base">
+        I'm a software engineering student with a passion for building things that are both
+        technically precise and purposefully designed. I enjoy working across the full stack —
+        from crafting native mobile experiences to optimizing performance-critical systems.
+      </p>
+      <p class="text-subtext leading-relaxed text-sm md:text-base mt-4">
+        Whether I'm designing a modular Android architecture, building a web application from
+        scratch, or exploring the low-level mechanics of memory and concurrency, I care about
+        writing code that is clean, correct, and built to last.
+      </p>
+    </div>
+
+    <!-- Focus areas -->
+    <div data-reveal data-reveal-delay="2">
+      <p class="text-subtext text-xs mb-4">// focus areas</p>
+      <ul class="space-y-4">
+        {
+          focusAreas.map((area) => (
+            <li class="flex flex-col gap-1.5">
+              <div class="flex items-center gap-2">
+                <span class="text-green text-sm">▸</span>
+                <span class="text-text text-sm font-medium">{area.label}</span>
+              </div>
+              <div class="flex flex-wrap gap-1.5 ml-5">
+                {area.tags.map((tag) => (
+                  <span class="text-blue text-xs bg-surface0 border border-surface1 px-1.5 py-0.5 rounded">
+                    [{tag}]
+                  </span>
+                ))}
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</section>

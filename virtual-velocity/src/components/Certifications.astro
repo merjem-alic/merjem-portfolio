@@ -1,0 +1,56 @@
+---
+import { certifications } from '../data/certifications';
+
+function formatDate(dateStr: string): string {
+  const [year, month] = dateStr.split('-');
+  const date = new Date(parseInt(year), parseInt(month) - 1);
+  return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
+}
+
+const sorted = [...certifications].sort((a, b) => b.date.localeCompare(a.date));
+---
+
+<section id="certifications">
+  <!-- Section heading -->
+  <div class="mb-10" data-reveal>
+    <p class="text-subtext text-sm mb-1">
+      <span class="text-blue">$</span> cat certifications.txt
+    </p>
+    <h2 class="text-text text-2xl font-bold">certifications</h2>
+    <div class="mt-2 h-px w-16 bg-blue opacity-50"></div>
+  </div>
+
+  <div data-reveal data-reveal-delay="1">
+    {
+      sorted.length === 0 ? (
+        <p class="text-subtext text-sm italic">
+          <span class="text-surface1">// </span>no entries yet — update{' '}
+          <span class="text-blue">src/data/certifications.ts</span> to add your certifications
+        </p>
+      ) : (
+        <div class="divide-y divide-surface1">
+          {sorted.map((cert) => (
+            <div class="flex flex-col md:flex-row md:items-center gap-1 md:gap-6 py-4">
+              <span class="text-subtext text-xs md:w-24 shrink-0">{formatDate(cert.date)}</span>
+              <span class="flex-1 text-text text-sm font-medium">
+                {cert.credentialUrl ? (
+                  <a
+                    href={cert.credentialUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="hover:text-blue transition-colors duration-150"
+                  >
+                    {cert.name} <span class="text-xs">→</span>
+                  </a>
+                ) : (
+                  cert.name
+                )}
+              </span>
+              <span class="text-subtext text-xs md:text-right">{cert.issuer}</span>
+            </div>
+          ))}
+        </div>
+      )
+    }
+  </div>
+</section>

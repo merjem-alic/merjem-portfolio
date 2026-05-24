@@ -1,0 +1,41 @@
+---
+import TypewriterHero from './TypewriterHero';
+import ScrollArrow from './ScrollArrow.astro';
+---
+
+<div
+  id="hero"
+  class="min-h-screen flex flex-col items-center justify-center px-4 py-20"
+>
+  <!-- Terminal window -->
+  <div class="w-full max-w-2xl">
+    <!-- Title bar -->
+    <div
+      class="flex items-center gap-2 px-4 py-3 bg-surface1 rounded-t-lg border border-surface1"
+    >
+      <span class="w-3 h-3 rounded-full bg-red-400 opacity-80"></span>
+      <span class="w-3 h-3 rounded-full bg-yellow-400 opacity-80"></span>
+      <span class="w-3 h-3 rounded-full bg-green opacity-80"></span>
+      <span class="ml-2 text-subtext text-xs">~/portfolio — zsh</span>
+    </div>
+
+    <!-- Terminal body -->
+    <div
+      class="bg-surface0 border border-t-0 border-surface1 rounded-b-lg p-6 md:p-8 space-y-4"
+    >
+      <!-- Prompt line -->
+      <div class="flex items-center gap-1 text-sm md:text-base">
+        <span class="text-green font-bold">merjem@dev</span>
+        <span class="text-subtext">:</span>
+        <span class="text-blue">~</span>
+        <span class="text-subtext">$</span>
+        <span class="text-subtext ml-1">./intro.sh</span>
+      </div>
+
+      <!-- Typewriter content -->
+      <TypewriterHero client:load />
+    </div>
+  </div>
+
+  <ScrollArrow />
+</div>

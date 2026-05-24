@@ -1,0 +1,21 @@
+---
+import { projects } from '../data/projects';
+import ProjectCard from './ProjectCard';
+---
+
+<section id="projects">
+  <!-- Section heading -->
+  <div class="mb-10" data-reveal>
+    <p class="text-subtext text-sm mb-1">
+      <span class="text-blue">$</span> ls projects/
+    </p>
+    <h2 class="text-text text-2xl font-bold">projects</h2>
+    <div class="mt-2 h-px w-16 bg-blue opacity-50"></div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4" data-reveal data-reveal-delay="1">
+    {projects.map((project) => (
+      <ProjectCard client:visible project={project} />
+    ))}
+  </div>
+</section>

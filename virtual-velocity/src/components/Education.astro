@@ -1,0 +1,68 @@
+---
+const coursework = [
+  'Parallel Programming',
+  'Object-Oriented Programming',
+  'Operating Systems',
+  'Database Systems',
+  'Optimization Algorithms',
+  'Data Structures & Algorithms',
+];
+---
+
+<section id="education">
+  <!-- Section heading -->
+  <div class="mb-10" data-reveal>
+    <p class="text-subtext text-sm mb-1">
+      <span class="text-blue">$</span> cat education.md
+    </p>
+    <h2 class="text-2xl font-bold" style="color: #cdd6f4">education</h2>
+    <div class="mt-2 h-px w-16 bg-blue opacity-50"></div>
+  </div>
+
+  <!-- Education card -->
+  <div
+    class="bg-surface0 border border-surface1 rounded-lg p-6 md:p-8"
+    data-reveal
+    data-reveal-delay="1"
+  >
+    <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4 md:gap-8">
+      <!-- Left: institution + degree -->
+      <div class="flex flex-col gap-2">
+        <div class="flex items-center gap-2">
+          <span class="text-green text-sm">▸</span>
+          <h3 class="font-bold text-base md:text-lg" style="color: #eff1f5">
+            International Burch University
+          </h3>
+        </div>
+        <p class="text-subtext text-sm ml-5">
+          BSc Information Technology – Software Engineering
+        </p>
+        <p class="text-subtext text-xs ml-5 opacity-70">2024 – 2027 (Expected)</p>
+      </div>
+
+      <!-- Right: GPA or status badge (optional decoration) -->
+      <div class="ml-5 md:ml-0 shrink-0">
+        <span class="text-green text-xs border border-green px-2 py-1 rounded opacity-70">
+          in progress
+        </span>
+      </div>
+    </div>
+
+    <!-- Divider -->
+    <div class="mt-6 mb-5 h-px bg-surface1"></div>
+
+    <!-- Relevant coursework -->
+    <div>
+      <p class="text-subtext text-xs mb-3">// relevant coursework</p>
+      <div class="flex flex-wrap gap-2">
+        {
+          coursework.map((course) => (
+            <span class="text-blue text-xs bg-surface1 border border-surface1 px-2 py-1 rounded font-mono">
+              [{course}]
+            </span>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
