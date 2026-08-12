@@ -17,7 +17,8 @@ const links = [
     ~/merjem
   </a>
 
-  <div class="flex items-center gap-4 md:gap-6 flex-wrap justify-end">
+  <!-- Desktop links -->
+  <div class="hidden md:flex items-center gap-6">
     {
       links.map((link) => (
         <a
@@ -40,4 +41,89 @@ const links = [
       résumé
     </a>
   </div>
+
+  <!-- Mobile menu toggle -->
+  <button
+    id="nav-toggle"
+    type="button"
+    aria-label="Toggle navigation menu"
+    aria-expanded="false"
+    aria-controls="mobile-menu"
+    class="md:hidden flex flex-col items-center justify-center gap-1.5 w-8 h-8 text-subtext hover:text-text transition-colors duration-200"
+  >
+    <span class="block w-5 h-px bg-current transition-transform duration-200"></span>
+    <span class="block w-5 h-px bg-current transition-opacity duration-200"></span>
+    <span class="block w-5 h-px bg-current transition-transform duration-200"></span>
+  </button>
+
+  <!-- Mobile menu panel -->
+  <div
+    id="mobile-menu"
+    class="md:hidden absolute top-full left-0 right-0 grid grid-rows-[0fr] border-b border-surface0 transition-[grid-template-rows] duration-300 ease-in-out"
+    style="background-color: rgba(30, 30, 46, 0.98); backdrop-filter: blur(8px);"
+  >
+    <div class="overflow-hidden">
+      <div class="flex flex-col px-6 py-4 gap-4">
+        {
+          links.map((link) => (
+            <a
+              href={link.href}
+              class="mobile-nav-link text-subtext text-sm hover:text-text transition-colors duration-200"
+            >
+              <span class="text-blue mr-1">&gt;</span>
+              {link.label}
+            </a>
+          ))
+        }
+        <a
+          href="/MerjemAlicCV.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="mobile-nav-link text-blue text-xs border border-blue px-2.5 py-1.5 rounded text-center"
+        >
+          résumé
+        </a>
+      </div>
+    </div>
+  </div>
 </nav>
+
+<script>
+  function initMobileNav() {
+    const toggle = document.getElementById('nav-toggle');
+    const menu = document.getElementById('mobile-menu');
+    if (!toggle || !menu) return;
+
+    toggle.addEventListener('click', () => {
+      const isOpen = menu.classList.toggle('is-open');
+      toggle.setAttribute('aria-expanded', String(isOpen));
+    });
+
+    menu.querySelectorAll('.mobile-nav-link').forEach((link) => {
+      link.addEventListener('click', () => {
+        menu.classList.remove('is-open');
+        toggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+  }
+
+  document.addEventListener('astro:page-load', initMobileNav);
+</script>
+
+<style>
+  #mobile-menu.is-open {
+    grid-template-rows: 1fr;
+  }
+
+  #nav-toggle[aria-expanded='true'] span:nth-child(1) {
+    transform: translateY(6.5px) rotate(45deg);
+  }
+
+  #nav-toggle[aria-expanded='true'] span:nth-child(2) {
+    opacity: 0;
+  }
+
+  #nav-toggle[aria-expanded='true'] span:nth-child(3) {
+    transform: translateY(-6.5px) rotate(-45deg);
+  }
+</style>

@@ -9,32 +9,33 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    title: 'FinchOS',
+    summary:
+      'Building a custom x86-64 operating system from scratch in C and assembly, working toward a fully functioning OS with a graphical user interface. Implemented bootloader integration, a custom GDT, a full IDT with exception handling, PIC/PIT-driven interrupt handling, a keyboard driver, and memory management, with active development ongoing on further core subsystems.',
+    tags: ['C', 'x86-64', 'Assembly', 'OS Dev'],
+    githubUrl: 'https://github.com/alicmerjem/FinchOS',
+    status: 'ongoing',
+  },
+  {
     title: 'Academiq',
     summary:
       'Native Android application that centralizes course management, assignment tracking, and study scheduling using MVVM architecture with a modular multi-screen UI and scalable structure for future RoomDB and Firebase integration.',
     tags: ['Kotlin', 'Jetpack Compose', 'Android', 'MVVM'],
-    githubUrl: 'https://github.com/merjem-alic',
+    githubUrl: 'https://github.com/alicmerjem/Academiq',
   },
   {
     title: 'Car Dealership Platform',
     summary:
       'Full-stack single-page platform simulating a modern dealership with a three-tier architecture, RESTful APIs, JWT authentication, full CRUD operations, a PDO-based DAO data layer, and production deployment on DigitalOcean.',
     tags: ['JavaScript', 'PHP', 'FlightPHP', 'MySQL', 'DigitalOcean'],
-    githubUrl: 'https://github.com/merjem-alic',
-  },
-  {
-    title: 'Synapse',
-    summary:
-      'Python-based Discord bot with interactive commands, community automation, polls, uptime tracking, and external quote data pipelines. Features hot-reload development tooling and secure environment configuration.',
-    tags: ['Python', 'Discord API'],
-    githubUrl: 'https://github.com/merjem-alic',
+    githubUrl: 'https://github.com/alicmerjem/Ferrari-Automotive-Group',
   },
   {
     title: 'Vibe Guard',
     summary:
       'Asynchronous Reddit moderation platform integrating the OpenAI Moderation API for real-time toxicity detection. Uses a Redis-backed state machine to track user behavior history and apply tiered enforcement policies.',
     tags: ['TypeScript', 'Hono', 'OpenAI API', 'Redis', 'Devvit'],
-    githubUrl: 'https://github.com/merjem-alic',
+    githubUrl: 'https://github.com/merjem-alic/vibe-guard',
     status: 'ongoing',
   },
 ];
