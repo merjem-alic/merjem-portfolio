@@ -37,12 +37,4 @@ export const projects: Project[] = [
     githubUrl: 'https://github.com/merjem-alic',
     status: 'ongoing',
   },
-  {
-    title: 'Atlas Trader',
-    summary:
-      'Prototype trading system focused on backtesting and simulation of stock market strategies. Validates trading logic against historical data with emphasis on correctness, deterministic behavior, and edge-case handling in financial inputs.',
-    tags: ['Backtesting', 'Simulation', 'Finance'],
-    githubUrl: 'https://github.com/merjem-alic',
-    status: 'ongoing',
-  },
 ];
