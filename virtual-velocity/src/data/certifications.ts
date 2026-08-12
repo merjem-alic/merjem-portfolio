@@ -18,4 +18,9 @@ export const certifications: Certification[] = [
     date: '2026-04',
     credentialUrl: 'https://verify.skilljar.com/c/6wnnm4sxqyaj',
   },
+  {
+    name: 'Model Context Protocol: Advanced Topics',
+    issuer: 'Anthropic',
+    date: '2026-07',
+  },
 ];

@@ -1,6 +1,7 @@
 ---
 const links = [
   { label: 'about', href: '#about' },
+  { label: 'experience', href: '#experience' },
   { label: 'education', href: '#education' },
   { label: 'projects', href: '#projects' },
   { label: 'certifications', href: '#certifications' },
@@ -16,7 +17,7 @@ const links = [
     ~/merjem
   </a>
 
-  <div class="flex items-center gap-6">
+  <div class="flex items-center gap-4 md:gap-6 flex-wrap justify-end">
     {
       links.map((link) => (
         <a
@@ -30,5 +31,13 @@ const links = [
         </a>
       ))
     }
+    <a
+      href="/MerjemAlicCV.pdf"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="text-blue text-xs border border-blue px-2.5 py-1 rounded hover:bg-blue hover:text-[#1e1e2e] transition-colors duration-200"
+    >
+      résumé
+    </a>
   </div>
 </nav>
