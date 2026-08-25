@@ -58,3 +58,8 @@ const { title = 'merjem — portfolio' } = Astro.props;
   initReveal();
   document.addEventListener('astro:page-load', initReveal);
 </script>
+
+<script>
+  import { inject } from '@vercel/analytics';
+  inject();
+</script>
