@@ -12,14 +12,14 @@ export default function ProjectCard({ project }: Props) {
     <div
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className={`bg-surface0 border rounded-lg p-5 flex flex-col gap-3 transition-all duration-200 cursor-default ${
+      className={`group bg-surface0 border rounded-lg p-5 flex flex-col gap-3 transition-all duration-200 cursor-default focus-within:border-blue ${
         isHovered ? 'border-blue' : 'border-surface1'
       }`}
     >
       {/* Header */}
       <div className="flex items-center gap-2">
         <span
-          className={`text-blue text-sm font-bold transition-all duration-150 ${
+          className={`text-blue text-sm font-bold transition-all duration-150 group-focus-within:opacity-100 group-focus-within:translate-x-0 ${
             isHovered ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-2'
           }`}
         >

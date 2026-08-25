@@ -39,10 +39,15 @@
 }
 
 html {
-  scroll-behavior: smooth;
   background-color: var(--color-base);
   color: var(--color-text);
   font-family: var(--font-family-mono);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 section {
@@ -77,3 +82,14 @@ section {
 [data-reveal-delay="2"] { transition-delay: 0.2s; }
 [data-reveal-delay="3"] { transition-delay: 0.3s; }
 [data-reveal-delay="4"] { transition-delay: 0.4s; }
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    transition: none;
+  }
+
+  .animate-blink,
+  .animate-bounce-slow {
+    animation: none;
+  }
+}
