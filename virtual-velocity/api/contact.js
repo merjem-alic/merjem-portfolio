@@ -5,6 +5,13 @@ const ERROR_MESSAGES = [
   "calm down, satan.",
 ];
 
+const BLOCKED_MESSAGES = [
+  "not today, satan.",
+  "i know who you are.",
+  "go outside.",
+  "this is between you and formspree now.",
+];
+
 const RATE_LIMIT_MAX = 3;
 const RATE_LIMIT_WINDOW_SECONDS = 60 * 60;
 const FORMSPREE_ENDPOINT = "https://formspree.io/f/mjybnwng";
@@ -12,6 +19,24 @@ const TURNSTILE_VERIFY_ENDPOINT = "https://challenges.cloudflare.com/turnstile/v
 
 function randomFunnyMessage() {
   return ERROR_MESSAGES[Math.floor(Math.random() * ERROR_MESSAGES.length)];
+}
+
+function randomBlockedMessage() {
+  return BLOCKED_MESSAGES[Math.floor(Math.random() * BLOCKED_MESSAGES.length)];
+}
+
+function isBlockedIp(ip) {
+  const raw = process.env.BLOCKED_IPS;
+  if (!raw || !ip) {
+    return false;
+  }
+
+  const blockedIps = raw
+    .split(",")
+    .map((entry) => entry.trim())
+    .filter(Boolean);
+
+  return blockedIps.includes(ip);
 }
 
 function getClientIp(req) {
@@ -111,6 +136,13 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: "Method not allowed." });
   }
 
+  const ip = getClientIp(req);
+  console.log("Contact form IP:", ip);
+
+  if (isBlockedIp(ip)) {
+    return res.status(403).json({ error: randomBlockedMessage() });
+  }
+
   const body = req.body ?? {};
   const name = typeof body.name === "string" ? body.name.trim() : "";
   const email = typeof body.email === "string" ? body.email.trim() : "";
@@ -127,8 +159,6 @@ export default async function handler(req, res) {
   if (honeypot) {
     return res.status(200).json({ ok: true });
   }
-
-  const ip = getClientIp(req);
 
   try {
     if (await isRateLimited(ip)) {
