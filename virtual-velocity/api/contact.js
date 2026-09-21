@@ -14,6 +14,10 @@ const BLOCKED_MESSAGES = [
 
 const RATE_LIMIT_MAX = 3;
 const RATE_LIMIT_WINDOW_SECONDS = 60 * 60;
+const GLOBAL_DAILY_LIMIT = 5;
+const GLOBAL_DAILY_WINDOW_SECONDS = 24 * 60 * 60;
+const GLOBAL_DAILY_KEY = "contact-global-daily";
+const AT_CAPACITY_MESSAGE = "This form has reached today's message limit — please email me directly instead.";
 const FORMSPREE_ENDPOINT = "https://formspree.io/f/mjybnwng";
 const TURNSTILE_VERIFY_ENDPOINT = "https://challenges.cloudflare.com/turnstile/v0/siteverify";
 
@@ -51,14 +55,13 @@ function getClientIp(req) {
   return null;
 }
 
-async function isRateLimited(ip) {
+async function incrementCounter(key, windowSeconds) {
   const url = process.env.UPSTASH_REDIS_REST_URL;
   const token = process.env.UPSTASH_REDIS_REST_TOKEN;
   if (!url || !token) {
     throw new Error("Upstash Redis is not configured");
   }
 
-  const key = `contact-rl:${ip}`;
   const response = await fetch(`${url}/pipeline`, {
     method: "POST",
     headers: {
@@ -67,7 +70,7 @@ async function isRateLimited(ip) {
     },
     body: JSON.stringify([
       ["INCR", key],
-      ["EXPIRE", key, String(RATE_LIMIT_WINDOW_SECONDS), "NX"],
+      ["EXPIRE", key, String(windowSeconds), "NX"],
     ]),
   });
 
@@ -76,8 +79,17 @@ async function isRateLimited(ip) {
   }
 
   const results = await response.json();
-  const count = results?.[0]?.result;
+  return results?.[0]?.result;
+}
+
+async function isRateLimited(ip) {
+  const count = await incrementCounter(`contact-rl:${ip}`, RATE_LIMIT_WINDOW_SECONDS);
   return typeof count === "number" && count > RATE_LIMIT_MAX;
+}
+
+async function isGlobalCapReached() {
+  const count = await incrementCounter(GLOBAL_DAILY_KEY, GLOBAL_DAILY_WINDOW_SECONDS);
+  return typeof count === "number" && count > GLOBAL_DAILY_LIMIT;
 }
 
 async function verifyTurnstile(token, ip) {
@@ -168,6 +180,10 @@ export default async function handler(req, res) {
     const isHuman = await verifyTurnstile(turnstileToken, ip);
     if (!isHuman) {
       return res.status(403).json({ error: randomFunnyMessage() });
+    }
+
+    if (await isGlobalCapReached()) {
+      return res.status(503).json({ error: AT_CAPACITY_MESSAGE });
     }
 
     const result = await forwardToFormspree({ name, email, message });
