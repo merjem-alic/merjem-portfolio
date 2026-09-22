@@ -29,6 +29,25 @@ function randomBlockedMessage() {
   return BLOCKED_MESSAGES[Math.floor(Math.random() * BLOCKED_MESSAGES.length)];
 }
 
+async function notifyDiscord(reason, ip) {
+  const webhookUrl = process.env.DISCORD_WEBHOOK_URL;
+  if (!webhookUrl) {
+    return;
+  }
+
+  try {
+    await fetch(webhookUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        content: `**Contact form alert:** ${reason} — IP: \`${ip ?? "unknown"}\``,
+      }),
+    });
+  } catch (error) {
+    console.error("discord webhook error:", error);
+  }
+}
+
 function isBlockedIp(ip) {
   const raw = process.env.BLOCKED_IPS;
   if (!raw || !ip) {
@@ -152,6 +171,7 @@ export default async function handler(req, res) {
   console.log("Contact form IP:", ip);
 
   if (isBlockedIp(ip)) {
+    await notifyDiscord("blocked IP tried to submit", ip);
     return res.status(403).json({ error: randomBlockedMessage() });
   }
 
@@ -169,20 +189,24 @@ export default async function handler(req, res) {
   // Honeypot field: real visitors never fill this in. Bots that do get a
   // fake success response so they don't learn to avoid the trap.
   if (honeypot) {
+    await notifyDiscord("honeypot triggered", ip);
     return res.status(200).json({ ok: true });
   }
 
   try {
     if (await isRateLimited(ip)) {
+      await notifyDiscord("rate limit hit (3/hour)", ip);
       return res.status(429).json({ error: randomFunnyMessage() });
     }
 
     const isHuman = await verifyTurnstile(turnstileToken, ip);
     if (!isHuman) {
+      await notifyDiscord("Turnstile verification failed", ip);
       return res.status(403).json({ error: randomFunnyMessage() });
     }
 
     if (await isGlobalCapReached()) {
+      await notifyDiscord("global daily cap reached (5/day)", ip);
       return res.status(503).json({ error: AT_CAPACITY_MESSAGE });
     }
 
